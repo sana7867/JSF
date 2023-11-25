@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    Header
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Resources">
+                            <p:menuitem value="Demo" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
+                            <p:menuitem value="Documentation" url="http://www.primefaces.org/documentation.html" />
+                            <p:menuitem value="Forum" url="http://forum.primefaces.org/" />
+                            <p:menuitem value="Themes" url="http://www.primefaces.org/themes.html" />
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h:form id="f1">
+                        <p:panel header="Gestion des Employees">
+                            <p:panelGrid columns="2" id="p1">
+                                <!-- Employee input fields -->
+
+                                <p:outputLabel value="Nom"/>
+                                <p:inputText value="#{employeeBean.employee.nom}"/>
+
+                                <p:outputLabel value="Prenom"/>
+                                <p:inputText value="#{employeeBean.employee.prenom}"/>
+
+                                <p:outputLabel value="Date de naissance"/>
+                                <p:calendar value="#{employeeBean.employee.dateNaissance}" pattern="yyyy-MM-dd"/>
+
+                                <p:outputLabel value="Photo"/>
+                                <p:inputText value="#{employeeBean.employee.photo}"/>
+
+                                <p:outputLabel value="Chef"/>
+                                <p:inputText value="#{employeeBean.employee.employee}"/>
+
+                                <p:outputLabel value="Service"/>
+                                <p:selectOneMenu value="#{employeeBean.employee.service.id}" required="true">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItems value="#{serviceBean.services}" 
+                                                   itemLabel="#{serviceBean.service.nom}" itemValue="#{serviceBean.service.id}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Nom"/>
+                                <p:inputText value="#{employeeBean.employee.nom}"/>
+
+                                <p:outputLabel value="Prenom"/>
+                                <p:inputText value="#{employeeBean.employee.prenom}"/>
+
+                         
+                                
+
+
+                            </p:panelGrid>
+                            <p:commandButton value="Ajouter" actionListener="#{employeeBean.onCreateAction()}" update=":form:tab, f1:p1"/>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form id="form">
+                        <p:growl id="messages" showDetail="true"/>
+
+                        <p:dataTable var="e" value="#{employeeBean.employees}" id="tab" editable="true" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15">
+
+                            <f:facet name="header">
+                                Liste des Employees
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{employeeBean.onEdit}" update=":form:messages" />
+                            <p:ajax event="rowEditCancel" listener="#{employeeBean.onCancel}" update=":form:messages" />
+
+                            <!-- Employee data table columns -->
+                            <p:column headerText="Nom" style="width:30%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{e.nom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{e.nom}" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Prenom" style="width:20%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{e.prenom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{e.prenom}" style="width:100%" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <!-- Add more columns as needed -->
+
+                            <p:column headerText="Nom" style="width:30%">
+                                <!-- Cell editor for 'Nom' -->
+                                <p:column headerText="Nom" style="width:30%">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{e.nom}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{e.nom}" style="width:100%" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:column>
+
+                            <p:column headerText="Prenom" style="width:20%">
+                                <!-- Cell editor for 'Prenom' -->
+                                <p:column headerText="Prenom" style="width:20%">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{e.prenom}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{e.prenom}" style="width:100%" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:column>
+
+                            <!-- Add other columns as needed -->
+
+                            <p:column headerText="Modifier" style="width:20%">
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column headerText="Supprimer" style="width:20%">
+                                <p:commandButton id="Supprimer" icon="ui-icon-trash"
+                                                 update=":form:confirmDialog" oncomplete="PF('confirmation').show();"
+                                                 title="Supprime">
+                                    <f:setPropertyActionListener target="#{employeeBean.employee}" value="#{e}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

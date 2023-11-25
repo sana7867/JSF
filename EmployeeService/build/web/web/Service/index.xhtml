@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Formulaire Employé</title>
+        <style>
+            /* Main styles for the entire page */
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #ecf0f1; /* Light blue background */
+                display: flex;
+                flex-direction: column; /* Display children elements in a column */
+            }
+
+            /* Style for the menu */
+            .ui-menu {
+                background-color: #3498db; /* Blue background */
+                order: 2; /* Change the order to display at the bottom */
+            }
+
+            .ui-menu .ui-menuitem-link {
+                color: #fff; /* White text color */
+            }
+
+            .ui-menu .ui-menuitem-link:hover {
+                background-color: #2980b9; /* Slightly darker blue for hover state */
+            }
+            .ui-menu {
+            background-color: #007BFF; /* Blue background */
+        }
+
+        .ui-menu .ui-menuitem-link {
+            color: #fff; /* White text color */
+        }
+
+        .ui-menu .ui-menuitem-link:hover {
+            background-color: #0056b3; /* Slightly darker blue for hover state */
+        }
+
+        /* Style for headers */
+        .ui-panel .ui-panel-titlebar {
+            background-color: #007BFF; /* Blue */
+            color: #fff; /* White text color */
+            border: none;
+        }
+
+            /* Style for the rest of the content */
+            .content {
+                flex: 1; /* Take up the rest of the available space in the column */
+                padding: 10px;
+                order: 1; /* Change the order to display at the top */
+                display: flex; /* Nested flex container for content */
+            }
+
+            /* ... Other styles remain unchanged ... */
+
+            /* Style for headers */
+            .ui-panel .ui-panel-titlebar {
+                background-color: #3498db; /* Blue */
+                color: #fff; /* White text color */
+                border: none;
+            }
+
+            /* Style for buttons */
+            .ui-button {
+                background-color: #3498db; /* Blue */
+                color: #fff; /* White text */
+                border: none;
+            }
+
+            .ui-button:hover {
+                background-color: #2980b9; /* Slightly darker blue for hover state */
+            }
+
+            /* Style for table */
+            .ui-datatable .ui-datatable-header,
+            .ui-datatable .ui-column-title {
+                background-color: #2980b9; /* Darker blue */
+                color: #fff; /* White text */
+            }
+
+            /* Style for input fields */
+            .ui-inputfield,
+            .ui-calendar {
+                border: 1px solid #ddd; /* Light gray border */
+                padding: 5px;
+            }
+
+            /* Footer style */
+            footer {
+                background-color: #2980b9; /* Dark blue */
+                color: #fff; /* White text */
+                text-align: center;
+                padding: 10px;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                <h:form>
+                    <p:panelGrid columns="4">
+                        <p:clock pattern="dd/MM/yyyy" />
+                        <p:clock pattern="hh:mm:ss " />
+                        <p:outputLabel value="Select Calendar"/>
+                        <p:calendar id="cal"  navigator="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                Footer
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="250" header="Menu" collapsible="true">
+                <p:menu styleClass="ui-menu">
+                    <p:submenu label="Resources">
+                        <p:menuitem value="G. Employee" url="http://localhost:41433/EmployeeService/web/Service/EmployeeForm.xhtml" icon="ui-icon-star"/>
+                        <p:menuitem value="G. Service" url="http://localhost:41433/EmployeeService/web/Service/serviceForm.xhtml" icon="ui-icon-star"/>
+                        <p:menuitem value="Rechercher" url="http://localhost:41433/EmployeeService/web/Service/serviceEmployeeForm.xhtml" icon="ui-icon-star"/>
+                        <p:menuitem value="Statistics" url="http://localhost:41433/EmployeeService/web/Service/index.xhtml" icon="ui-icon-star"/>
+                    </p:submenu>
+                </p:menu> 
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" class="content">
+                <!-- Rest of your content here -->
+                <p:panel header="Statistiques">
+                    <p:panelGrid columns="2">
+                        <p:barChart value="#{serviceBean.initBarModel()}" title="Nombre de employee par service" style="width : 500px; height: 500px"/>
+                        <p:barChart value="#{employeeBean.initBarModel()}" title="Nombre de employee par chef" style="width : 500px; height: 500px"/>
+                    </p:panelGrid>
+                </p:panel>
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>
+</html>

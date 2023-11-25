@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>PrimeFaces</title>
+            <style>
+                body {
+                    font-family: 'Arial', sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #007BFF; /* Light blue background */
+                    display: flex;
+                    flex-direction: column; /* Display children elements in a column */
+                    height: 100vh; /* 100% viewport height */
+                }
+
+                /* Style for the menu */
+                .ui-menu {
+                    background-color: #007BFF; /* Blue background */
+                    color: #fff; /* White text color */
+                }
+
+                .ui-menu .ui-menuitem-link:hover {
+                    background-color: #2980b9; /* Slightly darker blue for hover state */
+                }
+
+                /* Style for the rest of the content */
+                .content {
+                    flex: 1; /* Take up the rest of the available space in the column */
+                    padding: 10px;
+                    order: 1; /* Change the order to display at the top */
+                    display: flex; /* Nested flex container for content */
+                    overflow-y: auto; /* Allow content to be scrollable if needed */
+                }
+
+                /* Additional styles for layoutUnits */
+                .ui-layout-unit {
+                    overflow: hidden;
+                }
+
+                /* Style for the footer */
+                .footer {
+                    background-color: #333;
+                    color: #fff;
+                    text-align: center;
+                }
+
+            </style>
+        </f:facet>
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                <h:form>
+                    <p:panelGrid columns="4" class="header-panel">
+                        <p:clock pattern="dd/MM/yyyy" />
+                        <p:clock pattern="hh:mm:ss" />
+                        <p:outputLabel value="Select Calendar"/>
+                        <p:calendar id="cal"  navigator="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="100" closable="true" collapsible="true" class="footer">
+                Footer
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="250" header="Menu" collapsible="true" class="sidebar">
+                <h:form>
+                    <p:menu styleClass="ui-menu">
+                         <p:submenu label="Resources">
+                            <p:menuitem value="G. Employee" url="http://localhost:41433/EmployeeService/web/Service/EmployeeForm.xhtml" icon="ui-icon-star"/>
+                            <p:menuitem value="G. Service" url="http://localhost:41433/EmployeeService/web/Service/serviceForm.xhtml" icon="ui-icon-star"/>
+                            <p:menuitem value="Rechercher" url="http://localhost:41433/EmployeeService/web/Service/serviceEmployeeForm.xhtml" icon="ui-icon-star"/>
+                            <p:menuitem value="Statistics" url="http://localhost:41433/EmployeeService/web/Service/index.xhtml" icon="ui-icon-star"/>
+                        </p:submenu>
+                    </p:menu> 
+                </h:form>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="center" class="content">
+                <h:form id="f1">
+                    <p:growl id="growl" showDetail="true" sticky="true"  life="1000"/>
+
+                    <p:panel header="Gestion des services" class="content-panel">
+                        <p:panelGrid columns="3" id="p1">
+                            <p:outputLabel value="Id"/>
+                            <p:inputText id="id" value="#{serviceBean.service.id}" required="true" class="input-text"/>
+                            <p:message for="id" />
+                            <p:outputLabel value="Nom"/>
+                            <p:inputText id="nom" value="#{serviceBean.service.nom}" class="input-text"/>
+                            <p:message for="nom" />
+                            <p:outputLabel value="Chef De Service"/>
+                            <p:inputText id="chefService" value="#{serviceBean.service.employees}" class="input-text"/>
+                            <p:message for="chefService" />
+                        </p:panelGrid>
+                        <p:commandButton value="Ajouter" actionListener="#{serviceBean.onCreateAction}" update=":f2, f1:p1"/>        
+                    </p:panel>
+                </h:form>
+
+                <f:view>
+                    <h:form id="f2">
+                        <p:dataTable id="tab" var="s" value="#{serviceBean.services}"  editable="true" paginator="true" rows="10" class="data-table">
+
+                            <f:facet name="header">
+                                Liste des services
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{serviceBean.onEdit}"  />
+                            <p:ajax event="rowEditCancel" listener="#{serviceBean.onCancel}"  />
+
+                            <p:column headerText="Id" style="width:30%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{s.id}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{s.id}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Nom" style="width:20%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{s.nom}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{s.nom}" style="width:100%" label="Year" class="input-text"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Chef de Service" style="width:20%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{s.employees}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{s.employees}" style="width:100%" label="Year" class="input-text"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Modifier" >
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column headerText="Supprimer">
+                                <p:commandButton id="Supprimer" icon="ui-icon-trash"
+                                                 update=":f2:confirmDialog" oncomplete="PF('confirmation').show()"
+                                                 title="Supprimer">
+                                    <f:setPropertyActionListener target="#{serviceBean.service}"
+                                                                 value="#{s}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>  
+                    
+                        <p:dialog id="confirmDialog" showEffect="fade" header="Suppression d'une service" widgetVar="confirmation" class="confirm-dialog">
+                            <h:panelGrid id="display" columns="2" cellpadding="4"
+                                 style="margin:0 auto;" />
+                            <h:inputHidden value="#{serviceBean.service.id}" id="supp"
+                                           required="true" />
+                            
+                            <p:outputLabel
+                                value="Etes vous sûr de vouloir supprimer cette Salle ?" />
+                            <p:commandButton id="confirm" value="Oui"
+                                             update=":f2:tab" oncomplete="PF('confirmation').hide();location.reload();"
+                                             actionListener="#{serviceBean.onDeleteAction}" />
+                            <p:commandButton id="decline" value="Non"
+                                             onclick="PF('confirmation').hide()" type="button" />
+
+                        </p:dialog>
+                    </h:form>
+                </f:view>
+
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</f:view>
+</html>

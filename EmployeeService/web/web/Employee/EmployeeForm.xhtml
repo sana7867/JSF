@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Formulaire Employé</title>
+    <style>
+        /* Main styles for the entire page */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        /* Style for the menu */
+        .ui-menu {
+            background-color: #007BFF; /* Blue background */
+        }
+
+        .ui-menu .ui-menuitem-link {
+            color: #fff; /* White text color */
+        }
+
+        .ui-menu .ui-menuitem-link:hover {
+            background-color: #0056b3; /* Slightly darker blue for hover state */
+        }
+
+        /* Style for headers */
+        .ui-panel .ui-panel-titlebar {
+            background-color: #007BFF; /* Blue */
+            color: #fff; /* White text color */
+            border: none;
+        }
+
+        /* Style for buttons */
+        .ui-button {
+            background-color: #007BFF; /* Blue */
+            color: #fff; /* White text */
+            border: none;
+        }
+
+        .ui-button:hover {
+            background-color: #0056b3; /* Slightly darker blue for hover state */
+        }
+
+        /* Style for table */
+        .ui-datatable .ui-datatable-header,
+        .ui-datatable .ui-column-title {
+            background-color: #0056b3; /* Darker blue */
+            color: #fff; /* White text */
+        }
+
+        .ui-datatable .ui-datatable-tablewrapper {
+            border: none;
+        }
+
+        .ui-datatable tr {
+            border-bottom: 1px solid #ddd; /* Light gray border for rows */
+        }
+
+        /* Style for input fields */
+        .ui-inputfield,
+        .ui-calendar {
+            border: 1px solid #ddd; /* Light gray border */
+            padding: 5px;
+        }
+
+        /* Footer style */
+        footer {
+            background-color: #0056b3; /* Dark blue */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    </h:head>
+    <h:body>
+
+        <p:menu>
+           <p:submenu label="Resources">
+                            <p:menuitem value="G. Employee" url="http://localhost:41433/EmployeeService/web/Employee/EmployeeForm.xhtml" icon="ui-icon-star"/>
+                                <p:menuitem value="G. Service" url="http://localhost:41433/EmployeeService/web/Service/serviceForm.xhtml" icon="ui-icon-star"/>
+                                <p:menuitem value="Rechercher" url="http://localhost:41433/EmployeeService/web/Service/serviceEmployeeForm.xhtml" icon="ui-icon-star"/>
+                                <p:menuitem value="Statistics" url="http://localhost:41433/EmployeeService/web/Service/index.xhtml" icon="ui-icon-star"/>
+                        </p:submenu>
+
+        </p:menu>
+
+
+        <h:form id="employeeForm">
+
+            <!-- Formulaire pour ajouter un nouvel employé -->
+            <p:panel header="Gestion des Employés">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="id" value="Id:" />
+                    <p:inputText id="id" value="#{employeeBean.employee.id}" disabled="true" />
+
+                    <p:outputLabel for="nom" value="Nom:" />
+                    <p:inputText id="nom" value="#{employeeBean.employee.nom}" required="true" />
+
+                    <p:outputLabel for="prenom" value="Prénom:" />
+                    <p:inputText id="prenom" value="#{employeeBean.employee.prenom}" required="true" />
+
+                    <p:outputLabel for="date" value="Date de Naissance:" />
+                    <p:calendar id="date" value="#{employeeBean.employee.dateNaissance}" navigator="true" pattern="dd/MM/yyyy" />
+
+                    <p:outputLabel for="service" value="Service:" />
+                    <p:selectOneMenu id="service" value="#{employeeBean.employee.service}" converter="serviceConverter">
+                        <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{serviceBean.services}" var="service" itemLabel="#{service.nom}" itemValue="#{service}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="chefDeService" value="Chef de Service:" />
+                    <p:selectOneMenu id="chefDeService" value="#{serviceBean.employees}" converter="employeConverter">
+                        <f:selectItem itemLabel="Select One" noSelectionOption="true" />
+                        <f:selectItems value="#{employeeBean.employees}" var="e" itemLabel="#{e.nom} #{e.prenom}" itemValue="#{e}" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Ajouter" action="#{employeeBean.onCreateAction}" update=":employeeForm:employeesTable" />
+                </h:panelGrid>
+            </p:panel>
+
+            <!-- Table pour afficher les employés existants -->
+            <p:dataTable id="employeesTable" var="employee" value="#{employeeBean.employees}" editable="true">
+
+                <p:column headerText="Nom">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{employee.nom}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{employee.nom}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Prénom">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{employee.prenom}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{employee.prenom}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Photo">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{employee.photo}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{employee.photo}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Date de Naissance">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{employee.dateNaissance}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText></f:facet>
+                        <f:facet name="input"><p:calendar value="#{employee.dateNaissance}" pattern="dd/MM/yyyy" navigator="true"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Service">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{employee.service.nom}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{employee.service.nom}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column  style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:column headerText="Supprimer" >
+                    <p:commandButton value="Supprimer" actionListener="#{employeeBean.onDeleteAction(employee)}" update=":employeeForm:employeesTable" 
+                                     icon="ui-icon-trash" />
+                </p:column>
+
+
+                <!-- Autres colonnes pour prénom, photo, date de naissance, etc. -->
+
+
+
+
+            </p:dataTable>
+
+        </h:form>
+        <footer>
+            Footer Content Here
+        </footer>
+    </h:body>
+</html>
