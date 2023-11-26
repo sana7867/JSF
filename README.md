@@ -30,3 +30,7 @@ L'objectif de ce projet est de développer une application web utilisant Java Se
 
 ![static](https://github.com/sana7867/TP-JSF/assets/147515885/c16d4153-32af-4585-8bd7-cc75d80051e0)
 
+# Rechercher : 
+
+![recher1](https://github.com/sana7867/TP-JSF/assets/147515885/ab31f060-7df5-4d81-8f3b-481f4327bd33)
+
