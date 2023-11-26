@@ -8,6 +8,8 @@ L'objectif de ce projet est de développer une application web utilisant Java Se
 
 ![login](https://github.com/sana7867/TP-JSF/assets/147515885/1503ae2c-da22-44a0-8ff2-ec46a29a12ff)
 
+![aaaaa](https://github.com/sana7867/TP-JSF/assets/147515885/25c4c7b9-87e3-46cd-92d4-c0c7730ae338)
+
  # ajouter :
 
 ![aaaab](https://github.com/sana7867/TP-JSF/assets/147515885/31031e03-387d-4702-a48d-745d261aae8d)
@@ -16,7 +18,7 @@ L'objectif de ce projet est de développer une application web utilisant Java Se
 
 # supprimer : 
 
-![aaaaa](https://github.com/sana7867/TP-JSF/assets/147515885/25c4c7b9-87e3-46cd-92d4-c0c7730ae338)
+![aaaaasup](https://github.com/sana7867/TP-JSF/assets/147515885/5054df10-88d6-4a2c-b5ad-95255054f580)
 
 # modifier : 
 
