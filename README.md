@@ -1,4 +1,4 @@
-# TP-JSF
+# JSF
 
 # le but : 
 L'objectif de ce projet est de développer une application web utilisant Java Server Faces (JSF) pour gérer les employés au sein d'une entreprise en fonction de leurs services respectifs. L'application permettra d'effectuer des opérations CRUD (Créer, Lire, Mettre à jour, Supprimer) sur les données des employés organisées par services.
